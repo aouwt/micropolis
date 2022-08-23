@@ -4,18 +4,18 @@
 #include "map.h"
 
 
-struct Map Map_Alloc (struct MapConfig *Config) {
+struct Map Map_Alloc (struct Map_Config *Config) {
 	struct Map map;
 	map.Width = Config -> Width;
 	map.Height = Config -> Height;
 	
-	long tilecount = map.Width * map.Height;
+	map.Len = map.Width * map.Height;
 	
-	map.Tile = (struct MapTile *) calloc (tilecount, sizeof (struct MapTile));
+	map.Tile = (struct Map_Tile *) calloc (map.Len, sizeof (struct Map_Tile));
 }
 
 
-long Map_GenerateTerrain (struct Map *Map, struct MapConfig* Config) {
+long Map_GenerateTerrain (struct Map *Map, struct Map_Config *Config) {
 	long count = 0;
 	
 	/*Config -> Sum =
@@ -45,7 +45,7 @@ long Map_GenerateTerrain (struct Map *Map, struct MapConfig* Config) {
 	}
 }
 
-tile_t Map_RandomTile (struct MapConfig* Config) {
+tile_t Map_RandomTile (struct Map_Config *Config) {
 	float mult = ((float) RAND_MAX) / (
 		Config -> Water	+
 		Config -> Tree	+
@@ -78,11 +78,12 @@ tile_t Map_RandomTile (struct MapConfig* Config) {
 	}
 }
 
-struct Map *Map_ChangeMargins (struct Map *Map, struct Margin Margin) {
+struct Map *Map_ChangeMargins (struct Map *Map, struct Map_Margin Margin) {
 	struct Map newmap;
 	newmap.Width = Margin.left + Margin.right + Map -> Width;
 	newmap.Height = Margin.top + Margin.bottom + Map -> Height;
-	newmap.Tile = calloc (newmap.Width * newmap.Height, sizeof (struct MapTile));
+	newmap.Len = newmap.Width * newmap.Height;
+	newmap.Tile = calloc (newmap.len, sizeof (struct Map_Tile));
 	
 	for (int y = 0; y != Map -> Height; y ++) {
 		int ny = y - Margin.top;

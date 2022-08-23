@@ -6,6 +6,7 @@
 
 SDL_Surface *SDL_SpriteSheet = NULL;
 
+
 SDL_Surface *SDL_RenderMap (SDL_Surface *surface, SDL_Rect Size, short TileSize, struct Map *Map) {
 	
 	if (surface != NULL) {
