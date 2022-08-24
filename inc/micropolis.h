@@ -4,3 +4,4 @@
 	struct Pair {
 		int x, y;
 	};
+#endif
